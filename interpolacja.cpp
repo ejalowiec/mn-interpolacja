@@ -1,6 +1,7 @@
 ﻿#include <iostream>
 #include <fstream>
 #include <string>
+#include <cstdlib>
 
 using namespace std;
 
@@ -8,17 +9,32 @@ string imie, nazwisko;
 int nr_tel;
 
 int main() {
-	cout << "Imie: "; cin >> imie;
-	cout << "Nazwisko: "; cin >> nazwisko;
-	cout << "Nr tel: "; cin >> nr_tel;
 
 	fstream file;
-	file.open("test.txt", ios::out);
-	file << imie << endl;
-	file << nazwisko << endl;
-	file << nr_tel << endl;
+	file.open("test.txt", ios::in);
+
+	if (file.good() == false) {
+		cout << "File does not exist";
+		exit(0);
+	}
+
+	string line;
+	int noofline = 1;
+
+	while (getline(file, line)) {
+		switch (noofline) {
+		case 1: imie = line; break;
+		case 2: nazwisko = line; break;
+		case 3: nr_tel = atoi(line.c_str()); break;
+		}
+		noofline++;
+	}
 
 	file.close();
+
+	cout << imie << endl;
+	cout << nazwisko << endl;
+	cout << nr_tel << endl;
 
 	return 0;
 }
