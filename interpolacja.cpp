@@ -32,9 +32,9 @@ int main() {
 		exit(0);
 	}
 
-	int** arr = new int*[size];
+	double** arr = new double*[size];
 	for (int i = 0; i < size; ++i)
-		arr[i] = new int[2];
+		arr[i] = new double[2];
 
 	for (int i = 0; i < size; ++i) {
 		for (int j = 0; j < 2; ++j)
@@ -45,13 +45,13 @@ int main() {
 
 	// ---------------------- end of reading file ----------------------
 
-	// ---------------------- calculating  ----------------------
 
-
+	// ---------------------- calculating Lagrange interpolating polynomial for a specified node ----------------------
+	
 	float x; // entered number
 	cout << "What node you want to calculate the value for: ";  cin >> x;
 
-	double wx = 0.0;
+	double wxLagrange = 0.0;
 	double temp = 0.0; 
 
 	for (int i = 0; i < size; ++i) {
@@ -62,17 +62,60 @@ int main() {
 				temp /= (arr[i][0] - arr[j][0]);
 			}
 		}
-		wx += temp;
+		wxLagrange += temp;
 	}
 
+	// ---------------------- calculating Newton interpolating polynomial for a specified node ----------------------
+
+	double wxNewton = 0.0;
+	//double tempNewtonXi = 0.0;
+	//double tempNewtonFi = 0.0;
+	double tempNewton = 0.0;
 	
+	double** arrNewton = new double*[size];
+	for (int i = 0; i < size; ++i)
+		arrNewton[i] = new double[size];
+
+	// first column is f(xi)
+
+	for (int i = 0; i < size; ++i)	{
+		arrNewton[i][0] = arr[i][1];
+	}
+
+	for (int i = 0; i < size; ++i) {
+		for (int j = 0; j < size; ++j) {
+			tempNewton = arrNewton[j + 1][i] - arrNewton[j][i];
+			tempNewton /= arr[j + 1][i] - arr[j][i];
+			arrNewton[j + 1][i] = tempNewton;
+			cout << arrNewton[j][i] << endl;
+		}
+	}
+
+
+	//for (int i = 0; i < size; ++i) {
+	//	if (i != size) {
+	//		cout << i << endl;
+	//		cout << arr[i + 1][1] << endl;
+	//		cout << arr[i][1] << endl;
+	//		cout << arr[i + 1][0] << endl;
+	//		cout << arr[i + 1][0] << endl;
+	//		tempNewton = arr[i + 1][1] - arr[i][1];
+	//		tempNewton /= arr[i + 1][0] - arr[i][0];
+	//		arrNewton[i] = tempNewton;
+	//		cout << tempNewton << endl;
+	//	}
+	//}
+
+
+
+
 
 	// displaying data from file
 
 	//cout << size << endl;
-	cout << arr[0][0] << endl;
-	cout << arr[0][1] << endl;
-	cout << arr[0 + 1][0] << endl;
+	//cout << arr[0][0] << endl;
+	//cout << arr[0][1] << endl;
+	//cout << arr[0 + 1][0] << endl;
 	//cout << arr[1][0] << endl;
 	//cout << arr[1][1] << endl;
 	//cout << arr[2][0] << endl;
@@ -104,7 +147,11 @@ int main() {
 	// 4.
 	cout << "Node you entered: " << x << endl;
 	// 5.
-	cout << "Value for this node: " << wx << endl;
+	cout << "Value of Lagrange polynomial for this node: " << wxLagrange << endl;
+	// 6.
+	cout << "Value of Netwon polynomial for this node: " << wxNewton << endl;
+	// 7.
+	cout << "Coefficients of Newton polynomial: " << endl;
 
 
 	delete[] arr;
