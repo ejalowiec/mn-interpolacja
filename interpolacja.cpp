@@ -26,7 +26,7 @@ int main() {
 	int size;
 	file >> size;
 
-	if (size == 1) {
+	if (size <= 1) {
 		cerr << "Number of nodes is too low";
 		exit(0);
 	}
