@@ -81,14 +81,32 @@ int main() {
 	for (int i = 0; i < size; ++i)	{
 		arrNewton[i][0] = arr[i][1];
 	}
-
+	cout << arrNewton[0][0] << endl;
+	int tempOne = 1;
+	int tempZero = 0;
+	
 	for (int i = 0; i < size; ++i) {
+		cout << "i - start: " << i << endl;
 		for (int j = 0; j < size; ++j) {
-			tempNewton = arrNewton[j + 1][i] - arrNewton[j][i];
-			tempNewton /= arr[j + 1][i] - arr[j][i];
-			arrNewton[j + 1][i] = tempNewton;
-			cout << arrNewton[j][i] << endl;
+			cout << "size: " << size << endl;
+			cout << "j - start: " << j << endl;
+			if (j < size - tempOne) {
+				tempNewton = arrNewton[j + tempOne][i] - arrNewton[j + tempZero][i];
+				cout << arrNewton[j + tempOne][i] << endl;
+				cout << arrNewton[j + tempZero][i] << endl;
+				cout << arr[j + tempOne][0] << endl;
+				cout << arr[j][0] << endl;
+				tempNewton /= arr[j + tempOne][0] - arr[j][0];
+				cout << tempNewton << endl;
+				arrNewton[j + tempOne][i + 1] = tempNewton;
+				cout << arrNewton[j][i] << endl;
+				cout << arrNewton[j + tempOne][i + 1] << endl;
+				cout << "j: " << j << endl;
+				cout << "i: " << i << endl;
+			}
 		}
+		tempOne++;
+		tempZero++;
 	}
 
 
